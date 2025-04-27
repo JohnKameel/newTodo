@@ -29,7 +29,7 @@ class SharedPrefHelper {
   }
 
 
-  Future getData(String key, dynamic value) async {
+  Future setData(String key, dynamic value) async {
     if (value is String) {
       return await preferences.setString(key, value);
     }
@@ -41,7 +41,7 @@ class SharedPrefHelper {
     }
   }
 
-  dynamic data ({required String key}) async{
+  dynamic getData ({required String key}) async{
     return await preferences.get(key);
   }
 
