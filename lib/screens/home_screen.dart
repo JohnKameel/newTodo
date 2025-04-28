@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   String username = '';
 
   @override
@@ -20,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     loadUserName();
   }
 
-  loadUserName(){
+  loadUserName() {
     String? usernameDB = SharedPrefHelper.getUserName();
     setState(() {
       username = usernameDB ?? '';
@@ -31,28 +30,27 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                  'Hello $username',
-                style: const TextStyle(
-                  color: Colors.black
-                ),
-              ),
-              ElevatedButton(
-                  onPressed: () async{
-                    await SharedPrefHelper.clear();
-                    Navigator.pushReplacement(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const LoginScreen(),)
-                    );
-                  },
-                  child: const Text('Clear')
-              ),
-            ],
-          ),
-
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Hello $username',
+              style: const TextStyle(color: Colors.black),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await SharedPrefHelper.clear();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+              child: const Text('Log out'),
+            ),
+          ],
+        ),
       ),
     );
   }
