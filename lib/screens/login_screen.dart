@@ -50,29 +50,35 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 79,),
-                CustomTextFormField(
-                  hintText: 'Username',
-                  controller: usernameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Username';
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15,),
+                  child: CustomTextFormField(
+                    hintText: 'Username',
+                    controller: usernameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Username';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 const SizedBox(height: 20,),
-                CustomTextFormField(
-                  hintText: 'Password',
-                  isPassword: true,
-                  controller: passwordController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15,),
+                  child: CustomTextFormField(
+                    hintText: 'Password',
+                    isPassword: true,
+                    controller: passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 const SizedBox(height: 81,),
                 InkWell(

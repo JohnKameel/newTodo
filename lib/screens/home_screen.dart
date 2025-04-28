@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preference/core/shared_pref_helper.dart';
 import 'package:shared_preference/screens/login_screen.dart';
 
@@ -29,12 +30,25 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'Welcome $username',
+          style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+              fontSize: 32,
+          ),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Hello $username',
+            Lottie.asset('assets/Animation - 1745883415011.json'),
+            const Text(
+              'Nothing here yet..',
               style: const TextStyle(color: Colors.black),
             ),
             ElevatedButton(
