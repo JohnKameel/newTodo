@@ -5,7 +5,6 @@ import 'package:shared_preference/core/shared_pref_helper.dart';
 import 'package:shared_preference/screens/login_screen.dart';
 import 'package:shared_preference/widgets/custom_text_form_field.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:sqflite/sqflite.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,6 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
     await sqfLiteHelper.insertNote(
         _addNoteController.text, _addDesController.text);
     print('Note add');
+    getAllNotes();
+  }
+
+  Future<void> editNote(int id, String title, String dec) async {
+    await sqfLiteHelper.updateNote(id, title, dec);
     getAllNotes();
   }
 
@@ -136,6 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Nothing here yet..',
                       style: TextStyle(color: Colors.black),
                     ),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     ElevatedButton(
                       onPressed: () async {
                         await SharedPrefHelper.clear();
@@ -167,7 +174,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: (_) async {
                           await deleteNote(note['id']);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Note '${note['title']}' deleted")),
+                            SnackBar(
+                              content: Text(
+                                "Note ${note['title']} deleted",
+                              ),
+                            ),
                           );
                         },
                         backgroundColor: Colors.red,
@@ -178,18 +189,72 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Card(
                     elevation: 2,
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(16),
                       title: Text(
                         note['title'],
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       subtitle: Text(
                         note['dec'],
-                        style: const TextStyle(fontSize: 15, color: Colors.black54),
+                        style: const TextStyle(
+                            fontSize: 15, color: Colors.black54),
                       ),
+                      // update ntoe
+                      onLongPress: () {
+                        _addNoteController.text = note['title'];
+                        _addDesController.text = note['dec'];
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Edit Note'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CustomTextFormField(
+                                    controller: _addNoteController,
+                                    hintText: 'Title',
+                                  ),
+                                  CustomTextFormField(
+                                    controller: _addDesController,
+                                    hintText: 'Description',
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    await editNote(
+                                      note['id'],
+                                      _addNoteController.text,
+                                      _addDesController.text,
+                                    );
+                                    _addNoteController.clear();
+                                    _addDesController.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Save'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    _addNoteController.clear();
+                                    _addDesController.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 );

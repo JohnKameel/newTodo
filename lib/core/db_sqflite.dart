@@ -17,7 +17,8 @@ class SqfLiteHelper {
     final dbPath = await getDatabasesPath();
     final currentPath = '$dbPath/mynotes.db';
 
-    return await openDatabase(currentPath, version: 1, onCreate: (db, version) async {
+    return await openDatabase(currentPath, version: 1,
+        onCreate: (db, version) async {
       return await db.execute('''
           CREATE TABLE notes (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,12 +34,22 @@ class SqfLiteHelper {
     await db.insert("notes", {'title': title, 'dec': dec});
   }
 
+  Future<void> updateNote(int id, String title, String dec) async {
+    final db = await database;
+    await db.update(
+      "notes",
+      {'title': title, 'dec': dec},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
   Future<void> deleteNote(int id) async {
     Database db = await database;
     await db.delete("notes", where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<List<Map<String,dynamic>>> getAllNotes() async {
+  Future<List<Map<String, dynamic>>> getAllNotes() async {
     Database db = await database;
     return await db.query("notes");
   }
