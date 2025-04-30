@@ -224,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   CustomTextFormField(
                                     controller: _addDesController,
-                                    hintText: 'Description',
+                                    hintText: 'Des',
                                   ),
                                 ],
                               ),
